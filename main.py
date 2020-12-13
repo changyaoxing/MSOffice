@@ -1,14 +1,19 @@
 from docx import Document
 import xlrd
 if __name__ == '__main__':
-    filename="D:/2020学术年会/2020年研究生学术年会投稿情况汇总表 - 副本.xls";
-    wordPath="D:/2020学术年会/中南大学计算机学院第二届研究生学术年会论文摘要集.docx";
+    #Excel文件路径
+    filename="";
+    #Word文件路径
+    wordPath="";
     data = xlrd.open_workbook(filename);
     document = Document(wordPath);
+    #选择Excel中的第一张表
     table = data.sheets()[0];
+    #获得有效行数
     nrows=table.nrows;
     i=1
     while(i<nrows):
+        #获得单元格内容
         paperName=table.cell_value(i,7);
         paperAuthor = table.cell_value(i, 8);
         paperKeyWordsCN = table.cell_value(i, 9);
@@ -16,10 +21,13 @@ if __name__ == '__main__':
         paperKeyWordsENG = table.cell_value(i, 11);
         paperAbstractENG = table.cell_value(i, 12);
         if(paperName!=None):
+            #style就是word文档样式库中的样式，注意样式名要用英文
+            #添加段
             document.add_paragraph(paperName,style='nameCN');
         if (paperAuthor != None):
             document.add_paragraph(paperAuthor,style='authorCN');
         if (paperAbstractCN != None):
+            #添加段和行
             document.add_paragraph("摘  要  ", style='abAndKeyCN').add_run(paperAbstractCN);
         if (paperKeyWordsCN != None):
             document.add_paragraph("关键字  ", style='abAndKeyCN').add_run(paperKeyWordsCN);
