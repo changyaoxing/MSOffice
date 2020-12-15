@@ -1,10 +1,11 @@
 from docx import Document
 import xlrd
+import re
 if __name__ == '__main__':
     #Excel文件路径
-    filename="";
+    filename="D:/2020学术年会/2020年研究生学术年会投稿情况汇总表 - 副本.xls";
     #Word文件路径
-    wordPath="";
+    wordPath="C:/Users/12420/Desktop/123.docx";
     data = xlrd.open_workbook(filename);
     document = Document(wordPath);
     #选择Excel中的第一张表
@@ -15,6 +16,9 @@ if __name__ == '__main__':
     while(i<nrows):
         #获得单元格内容
         paperName=table.cell_value(i,7);
+        paperName=re.sub("^.*\+.*\+.*\+.*\+", "", paperName, count=0, flags=0);
+        paperName = re.sub("^.*-.*-.*-.*-", "", paperName, count=0, flags=0);
+        paperName = re.sub("^.*_.*_.*_.*_", "", paperName, count=0, flags=0);
         paperAuthor = table.cell_value(i, 8);
         paperKeyWordsCN = table.cell_value(i, 9);
         paperAbstractCN = table.cell_value(i, 10);
